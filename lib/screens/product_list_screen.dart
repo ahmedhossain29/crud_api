@@ -2,8 +2,18 @@ import 'package:crud_api/screens/add_new_product_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/product_item.dart';
 
-class ProductListScreen extends StatelessWidget {
+class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
+
+  @override
+  State<ProductListScreen> createState() => _ProductListScreenState();
+}
+
+class _ProductListScreenState extends State<ProductListScreen> {
+
+  void getProductList(){
+
+  }
 
   @override
   Widget build(BuildContext context) {
