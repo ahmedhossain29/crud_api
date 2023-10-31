@@ -1,14 +1,16 @@
 import 'package:crud_api/screens/add_new_product_screen.dart';
+import 'package:crud_api/screens/product_list_screen.dart';
 import 'package:flutter/material.dart';
 
-class ProductItem extends StatefulWidget {
-  const ProductItem({super.key});
 
-  @override
-  State<ProductItem> createState() => _ProductItemState();
-}
 
-class _ProductItemState extends State<ProductItem> {
+
+class ProductItem extends StatelessWidget {
+  const ProductItem({super.key, required this.product});
+
+
+  final Product product;
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -20,24 +22,19 @@ class _ProductItemState extends State<ProductItem> {
             });
       },
       leading: Image.network(
-        'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D',
+        product.image,
         width: 80,
       ),
-      title: const Text('Product name'),
-      subtitle: const Column(
+      title:  Text(product.productName),
+      subtitle:  Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text('Product code'),
-              SizedBox(width: 24,),
-              Text('Product price'),
-            ],
-          ),
-          Text('Product Description'),
+          Text(product.productCode),
+          SizedBox(width: 24,),
+          //Text('Total Price :${product.totalPrice}'),
         ],
       ),
-      trailing: const Text('\$120'),
+      trailing: Text('${product.unitPrice}'),
     );
   }
 }
