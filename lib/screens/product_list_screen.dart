@@ -24,6 +24,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   void getProductList() async {
     inProgress = true;
+    productList.clear();
     setState(() {});
     Response response = await get(
       Uri.parse('https://crud.teamrabbil.com/api/v1/ReadProduct'),
@@ -112,4 +113,3 @@ class Product {
 }
 
 
-//
