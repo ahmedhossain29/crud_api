@@ -1,15 +1,14 @@
 import 'package:crud_api/screens/add_new_product_screen.dart';
-import 'package:crud_api/screens/product_list_screen.dart';
+
 import 'package:flutter/material.dart';
-
-
-
+import '../screens/product_list_screen.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({super.key, required this.product});
-
+  const ProductItem(
+      {super.key, required this.product, required this.onPressDelete, });
 
   final Product product;
+  final Function(String) onPressDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -18,36 +17,29 @@ class ProductItem extends StatelessWidget {
         showDialog(
             context: context,
             builder: (context) {
-              return const buildActionDialog();
+              return productActionDialog(context);
             });
       },
       leading: Image.network(
         product.image,
         width: 80,
       ),
-      title:  Text(product.productName),
-      subtitle:  Column(
+      title: Text(product.productName),
+      subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(product.productCode),
-          SizedBox(width: 24,),
-          //Text('Total Price :${product.totalPrice}'),
+          Text('Total price : ${product.totalPrice}'),
+          Text('Quantity : ${product.quantity}'),
         ],
       ),
-      trailing: Text('${product.unitPrice}'),
+      trailing: Text('\$${product.unitPrice}'),
     );
   }
-}
 
-class buildActionDialog extends StatelessWidget {
-  const buildActionDialog({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  AlertDialog productActionDialog(BuildContext context) {
     return AlertDialog(
-      title: const Text('Select Action'),
+      title: const Text('Select action'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -57,21 +49,26 @@ class buildActionDialog extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          const AddNewProductScreen()));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddNewProductScreen(
+                    product: product,
+                  ),
+                ),
+              );
             },
           ),
           const Divider(
             height: 0,
           ),
           ListTile(
-              title: Text('Delete'),
-              leading: Icon(Icons.delete_forever),
-              onTap: () {
-                Navigator.pop(context);
-              }),
+            title: const Text('Delete'),
+            leading: const Icon(Icons.delete_outline),
+            onTap: () {
+              Navigator.pop(context);
+              onPressDelete(product.id);
+            },
+          ),
         ],
       ),
     );

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:crud_api/screens/add_new_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -53,6 +52,22 @@ class _ProductListScreenState extends State<ProductListScreen> {
     setState(() {});
   }
 
+  void deleteProduct(String productId) async {
+    inProgress = true;
+
+    setState(() {});
+    Response response = await get(
+      Uri.parse('https://crud.teamrabbil.com/api/v1/DeleteProduct/$productId'),
+    );
+    if (response.statusCode == 200)  {
+     getProductList();
+    }
+    else{
+      inProgress = false;
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +99,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
               itemCount: productList.length,
               itemBuilder: (context, index) {
                 return ProductItem(
+                  onPressDelete: (String productId){
+                    deleteProduct(productId);
+                  },
                   product: productList[index],
                 );
               },
